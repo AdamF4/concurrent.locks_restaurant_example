@@ -11,7 +11,7 @@ import java.util.*;
 public class Restaurant {
     static public Queue<String> orderQueue = new LinkedList<>();
     static public Queue<String> mealQueue = new LinkedList<>();
-    static public int ordersComplete = 0;
+    static public int chefsComplete = 0; //stores the number of
     public static void main(String[] args) {
         readOrderFromFile();                   //reads orders from file and adds to queue in Chef
         System.out.println("\n\nLogs:\n");
@@ -27,7 +27,7 @@ public class Restaurant {
         andrew.start();                               //starts thread andrew
         emily.start();                                //starts thread emily
 
-        while(mealQueue.peek()!=null || ordersComplete<2){
+        while(!mealQueue.isEmpty() || chefsComplete<2){
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -41,6 +41,7 @@ public class Restaurant {
         System.out.println(katie);
         System.out.println(andrew);
         System.out.println(emily);
+        System.exit(0);
     }
 
     private static void readOrderFromFile(){    //reads the order list from file

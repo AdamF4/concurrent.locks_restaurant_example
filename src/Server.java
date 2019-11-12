@@ -22,13 +22,13 @@ public class Server extends Thread {                                //server ext
 
     public void run(){  //using lambda expression
         String currMeal;        //string to hold the current meal
-        while(Restaurant.mealQueue.peek() != null || Restaurant.ordersComplete<2) {      //while there are meals available or if the chefs haven't finished preparing orders
+        while(!Restaurant.mealQueue.isEmpty() || Restaurant.chefsComplete<2) {      //while there are meals available or if the chefs haven't finished preparing orders
 
             lock.lock();    //apply the lock
-            if (Restaurant.mealQueue.peek() != null) {
+            if (!Restaurant.mealQueue.isEmpty()) {
                 try {
 
-                    currMeal = Restaurant.mealQueue.remove();              //set the current meal as the front of queue and remove from queue
+                    currMeal = Restaurant.mealQueue.remove();   //set the current meal as the front of queue and remove from queue
                     totalMeals++;                               //increase total counter
                     if (currMeal.contains("Burger")) {          //if burger
                         numBurgers++;                           //increase burger count
@@ -44,7 +44,7 @@ public class Server extends Thread {                                //server ext
                 }
 
                 try {   //try catch for interrupts
-                    Thread.sleep((int) (Math.random() * 100)); //have the thread sleep for a random time 0-1 seconds
+                    Thread.sleep((int) (Math.random() * 1000)); //have the thread sleep for a random time 0-1 seconds
 
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -58,7 +58,7 @@ public class Server extends Thread {                                //server ext
 
 
     public String toString(){
-        String summary = "Server " + name;          //create the summary string with server name
+        String summary = "Server " + name;                                      //create the summary string with server name
         summary += " finished preparing " + totalMeals + " orders including ";  //add total meals prepared info
         summary += numBurgers + " burgers, ";                                   //add burgers prepared info
         summary += numPizzas + " pizzas and ";                                  //add pizzas prepared info

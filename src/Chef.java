@@ -24,9 +24,9 @@ public class Chef extends Thread {                                  //chef exten
     public void run(){  //using lambda expression
         String currOrder;       //string to hold the current meal
 
-        while(Restaurant.orderQueue.peek()!=null) {    //while the order queue is not empty
+        while(!Restaurant.orderQueue.isEmpty()) {    //while the order queue is not empty
             lock.lock();    //apply the lock
-            if(Restaurant.orderQueue.peek()!=null) {
+            if(!Restaurant.orderQueue.isEmpty()) {
                 try {
 
                     currOrder = Restaurant.orderQueue.remove();              //set the current meal as the front of queue and remove from queue
@@ -44,7 +44,7 @@ public class Chef extends Thread {                                  //chef exten
                     lock.unlock();  //remove the lock
                 }
                 try {   //try catch for interrupts
-                    Thread.sleep((int) (Math.random() * 100)); //have the thread sleep for a random time 0-1 seconds
+                    Thread.sleep((int) (Math.random() * 1000)); //have the thread sleep for a random time 0-1 seconds
                     Restaurant.mealQueue.add(currOrder);                  //add the current order to the meal queue in server
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -53,7 +53,7 @@ public class Chef extends Thread {                                  //chef exten
                 lock.unlock();
             }
         }
-        Restaurant.ordersComplete++;
+        Restaurant.chefsComplete++;
     }
 
 
